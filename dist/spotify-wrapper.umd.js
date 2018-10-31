@@ -113,8 +113,6 @@ exports.getAlbumTracks = exports.getAlbums = exports.getAlbum = undefined;
 
 var _config = __webpack_require__(/*! ./config */ "./src/config.js");
 
-var _config2 = _interopRequireDefault(_config);
-
 var _utils = __webpack_require__(/*! ./utils */ "./src/utils.js");
 
 var _utils2 = _interopRequireDefault(_utils);
@@ -124,15 +122,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /* global fetch */
 
 var getAlbum = exports.getAlbum = function getAlbum(id) {
-  return fetch(_config2.default + '/albums/' + id).then(_utils2.default);
+  return fetch(_config.API_URL + '/albums/' + id, _config.HEADERS).then(_utils2.default);
 };
 
 var getAlbums = exports.getAlbums = function getAlbums(ids) {
-  return fetch(_config2.default + '/albums/?ids=' + ids).then(_utils2.default);
+  return fetch(_config.API_URL + '/albums/?ids=' + ids, _config.HEADERS).then(_utils2.default);
 };
 
 var getAlbumTracks = exports.getAlbumTracks = function getAlbumTracks(id) {
-  return fetch(_config2.default + '/albums/' + id + '/tracks').then(_utils2.default);
+  return fetch(_config.API_URL + '/albums/' + id + '/tracks', _config.HEADERS).then(_utils2.default);
 };
 
 /***/ }),
@@ -147,11 +145,15 @@ var getAlbumTracks = exports.getAlbumTracks = function getAlbumTracks(id) {
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var API_TOKEN = 'BQANXUb3o8YUs7ADsZdkhQN6jLfgba2bZku0ilbVUdslBVF4Nq-1XPlaInPjEQ5IbjnhZQocJXYUwP_K-gBlZsuXxwOgiDZsW-8ROcZtZvSLlzt22M5Kl8dUX_40Sd1X-dHuLef_7TdZCgv_KucU2_sLVn5mHbKq0CKRrfc1RfSGCoWOgq8bYhwG7lc4qfZJRKLgl3VQD-H6XkZ66p1p3jVXsJa5iI042mzSG3fjBwfDzNZN_eKQUvcherVMuUzpRmXBZFrfc9ODNUj-4pCn5_BD';
 var API_URL = 'https://api.spotify.com/v1';
-exports.default = API_URL;
+var HEADERS = {
+  headers: {
+    Authorization: 'Bearer ' + API_TOKEN
+  }
+};
+
+exports.modules = { API_URL: API_URL, HEADERS: HEADERS };
 
 /***/ }),
 
@@ -172,7 +174,7 @@ var _album = __webpack_require__(/*! ./album */ "./src/album.js");
 module.exports = {
   search: _search.search,
   searchArtists: _search.searchArtists,
-  searchAlbuns: _search.searchAlbuns,
+  searchAlbums: _search.searchAlbums,
   searchPlaylists: _search.searchPlaylists,
   getAlbum: _album.getAlbum,
   getAlbums: _album.getAlbums,
@@ -198,8 +200,6 @@ exports.searchPlaylists = exports.searchTracks = exports.searchAlbums = exports.
 
 var _config = __webpack_require__(/*! ./config */ "./src/config.js");
 
-var _config2 = _interopRequireDefault(_config);
-
 var _utils = __webpack_require__(/*! ./utils */ "./src/utils.js");
 
 var _utils2 = _interopRequireDefault(_utils);
@@ -209,7 +209,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /* global fetch*/
 
 var search = exports.search = function search(query, type) {
-  return fetch(_config2.default + '/search?q=' + query + '&type=' + type).then(_utils2.default);
+  return fetch(_config.API_URL + '/search?q=' + query + '&type=' + type, _config.HEADERS).then(_utils2.default);
 };
 
 var searchArtists = exports.searchArtists = function searchArtists(query) {

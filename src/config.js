@@ -6,4 +6,4 @@ const HEADERS = {
   },
 };
 
-exports.modules = { API_URL, HEADERS };
+module.exports = { API_URL, HEADERS };

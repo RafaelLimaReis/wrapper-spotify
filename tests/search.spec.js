@@ -19,7 +19,7 @@ describe('Search', () => {
       token: 'foo'
     });
     fetchedStub = sinon.stub(global, 'fetch');
-    promise = fetchedStub.returnsPromise();
+    fetchedStub.resolves({ json: () => { } });
   });
 
   afterEach(() => {

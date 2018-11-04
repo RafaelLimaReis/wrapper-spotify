@@ -26,7 +26,7 @@
         token: 'foo'
       });
       stubedFetch = sinon.stub(global, 'fetch');
-      promise = stubedFetch.returnsPromise();
+      promise = stubedFetch.resolves({ json: () => ({ album: 'name' }) });
     });
 
     afterEach(() => {
@@ -58,11 +58,12 @@
         expect(stubedFetch).to.have.been.calledWith('https://api.spotify.com/v1/albums/4aawyAB9vmqN3uQ7FjRGTT');
       });
 
-      it('should return the correct data from promise', () => {
-        promise.resolves({album: 'name'});
+      it('should return the correct data from Promise', () => {
         const album = spotify.album.getAlbum('4aawyAB9vmqN3uQ7FjRGTy');
-        expect(album.resolveValue).to.be.eql({album: 'name'});
-      })
+        album.then((data) => {
+          expect(data).to.be.eql({ album: 'name' });
+        })
+      });
     });
 
     describe('getAlbums', () => {
@@ -79,11 +80,12 @@
         expect(stubedFetch).to.have.been.calledWith('https://api.spotify.com/v1/albums/?ids=4aawyAB9vmqN3uQ7FjRGTy,4aawyAB9vmqN3uQ7FjRGTq');
       });
 
-      it('should return the correct data from promise', () => {
-        promise.resolves({ album: 'name' });
-        const album = spotify.album.getAlbums(['4aawyAB9vmqN3uQ7FjRGTy', '4aawyAB9vmqN3uQ7FjRGTq']);
-        expect(album.resolveValue).to.be.eql({ album: 'name' });
-      })
+      it('should return the correct data from Promise', () => {
+        const albums = spotify.album.getAlbums(['4aawyAB9vmqN3uQ7FjRGTy', '4aawyAB9vmqN3uQ7FjRGTk']);
+        albums.then((data) => {
+          expect(data).to.be.eql({ album: 'name' });
+        });
+      });
     });
 
     describe('getTracks', () => {
@@ -100,10 +102,11 @@
         expect(stubedFetch).to.have.been.calledWith('https://api.spotify.com/v1/albums/4aawyAB9vmqN3uQ7FjRGTy/tracks');
       });
 
-      it('should return the correct data from promise', () => {
-        promise.resolves({ album: 'name' });
-        const album = spotify.album.getTracks('4aawyAB9vmqN3uQ7FjRGTy');
-        expect(album.resolveValue).to.be.eql({ album: 'name' });
-      })
+      it('should return the correct data from Promise', () => {
+        const tracks = spotify.album.getTracks('4aawyAB9vmqN3uQ7FjRGTy');
+        tracks.then((data) => {
+          expect(data).to.be.eql({ album: 'name' });
+        });
+      });
     });
   });
